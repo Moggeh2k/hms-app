@@ -33,10 +33,14 @@ const Login = () => {
         }}
       />
       <button onClick={submitOnClick}>Log in</button>
-      <input type="checkbox" value={rememberMe} onChange={(e) => {setRememberMe(e.target.checked)}} /> 
+      <input
+        type="checkbox"
+        value={rememberMe}
+        onChange={(e) => {
+          setRememberMe(e.target.checked);
+        }}
+      />
       <div>{errorState}</div>
-
-
     </div>
   );
 };
