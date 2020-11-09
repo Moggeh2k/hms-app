@@ -1,7 +1,8 @@
 import React from "react";
-import "./App.css";
-import Login from "./Pages/Login/Loginside";
+// import "./App.css";
+import Loginside from "./Pages/Login/Loginside";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+
 
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <Login />
+          <Loginside />
         </Route>
         <Route exact path="/hovedside">
           {/* <Page1/> */}
