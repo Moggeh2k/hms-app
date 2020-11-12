@@ -1,42 +1,15 @@
 import React from "react";
 // import "./App.css";
-import Loginside from "./Pages/Login/Loginside";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Hovedside from "./Pages/Hovedside/Hovedside";
-import MeldAvvik from './Pages/MeldAvvik/MeldAvvik';
-import MineAvvik from "./Pages/MineAvvik/MineAvvik";
+import { useAuth } from "./context/AuthContext";
+import AuthenticatedApp from "./Components/AuthenticatedApp";
+import UnauthenticatedApp from "./Components/UnauthenticatedApp";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/">
-          <Loginside/>
-        </Route>
 
-        <Route exact path="/hovedside">
-          <Hovedside/>
-        </Route>
+  const { isLoggedIn } = useAuth();
 
-        <Route exact path="/elevliste">
-          Elevliste
-        </Route>
-
-        <Route exact path="/avviksliste">
-          Avviksliste
-        </Route> 
-
-        <Route exact path="/mine-avvik">
-          <MineAvvik/>
-        </Route> 
-
-         <Route exact path="/meld-avvik">
-         <MeldAvvik/>
-         </Route>
-
-      </Switch>
-    </BrowserRouter>
-  );
+  if (isLoggedIn) return <AuthenticatedApp />
+  else return <UnauthenticatedApp />
 }
 
 export default App;

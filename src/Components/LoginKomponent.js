@@ -1,18 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
-const Login = (props) => {
-  const {
-    email,
-    setEmail,
-    password,
-    setPassword,
-    handleLogin,
-    handleSignup,
-    hasAccount,
-    setHasAccount,
-    emailError,
-    passwordError,
-  } = props;
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { clearErrors, emailError, passwordError, login } = useAuth();
+  
+  const handleLogin = () => {
+    clearErrors();
+    login(email, password);
+  }
 
   return (
     <section className="Login">
@@ -36,23 +34,7 @@ const Login = (props) => {
         />
         <p className="errorMessage">{passwordError}</p>
         <div className="ButtonContainer">
-          {hasAccount ? (
-            <>
-              <button onClick={handleLogin}> Sign In</button>
-              <p>
-                No Account ?
-                <span onClick={() => setHasAccount(!hasAccount)}>Sign Up</span>
-              </p>
-            </>
-          ) : (
-            <>
-              <button onClick={handleSignup}>Sign Up</button>
-              <p>
-                Have an Account ?
-                <span onClick={() => setHasAccount(!hasAccount)}>Sign In</span>
-              </p>
-            </>
-          )}
+          <button onClick={handleLogin}> Sign In</button>
         </div>
       </div>
     </section>

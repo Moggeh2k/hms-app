@@ -30,7 +30,4 @@ function MeldAvvik() {
   );
 }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<MeldAvvik />, rootElement);
-
 export default MeldAvvik;
