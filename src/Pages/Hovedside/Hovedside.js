@@ -1,6 +1,14 @@
-import React from "react";
+// import React from "react";
 
-const Hovedside = () => {
-  return <div>Hovedside</div>;
-};
-export default Hovedside;
+// // const Hovedside = () => {
+// //   return (
+  
+// //     // <div>
+// //     // <button onClick={window.location.assign("/hovedside")}> Sign In </button>
+// //     // </div>
+
+// //   );
+// // };
+
+
+// export default Hovedside;

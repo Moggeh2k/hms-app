@@ -6,8 +6,8 @@
 //   const [rememberMe, setRememberMe] = useState(false);
 //   const [errorState, setError] = useState("");
 
-//   const submitOnClick = () => {
-//     if (username === "Hacker" && password === "hunter2") {
+//   coker" && password === "hunst submitOnClick = () => {
+//     if (username === "Hacnter2") {
 //       window.location.assign("/hovedside");
 //     } else {
 //       setError("Feil Brukernavn eller Passord");
@@ -50,9 +50,10 @@
 import React, { useState, useEffect } from "react";
 import Fire from "../../Components/Fire";
 // import "/App.css";
-import Hero from '../../Components/Hero';
+import Hero  from '../../Components/HovedsideKomponent';
 import Login from '../../Components/LoginKomponent';
 import './Loginside.css';
+
 
 
 const Loginside = () => {
@@ -149,4 +150,6 @@ const Loginside = () => {
     </div>
   );
 };
+
+
 export default Loginside;

@@ -2,28 +2,38 @@ import React from "react";
 // import "./App.css";
 import Loginside from "./Pages/Login/Loginside";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-
-
+import Hovedside from "./Pages/Hovedside/Hovedside";
+import MeldAvvik from './Pages/MeldAvvik/MeldAvvik';
+import MineAvvik from "./Pages/MineAvvik/MineAvvik";
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <Loginside />
+          <Loginside/>
         </Route>
+
         <Route exact path="/hovedside">
-          {/* <Page1/> */}
+          <Hovedside/>
         </Route>
+
         <Route exact path="/elevliste">
-          Page2
+          Elevliste
         </Route>
+
         <Route exact path="/avviksliste">
-          Page3
+          Avviksliste
         </Route> 
+
         <Route exact path="/mine-avvik">
-          Page3
-        </Route>
+          <MineAvvik/>
+        </Route> 
+
+         <Route exact path="/meld-avvik">
+         <MeldAvvik/>
+         </Route>
+
       </Switch>
     </BrowserRouter>
   );
@@ -44,3 +54,4 @@ export default App;
 //
 //   Hvis Bruker -> Meld Avvik
 //    
+

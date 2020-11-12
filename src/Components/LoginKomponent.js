@@ -17,7 +17,7 @@ const Login = (props) => {
   return (
     <section className="Login">
       <div className="LoginContainer">
-        <label>Username</label>
+        <label>Brukernavn</label>
         <input
           type="text"
           autoFocus
@@ -27,7 +27,7 @@ const Login = (props) => {
         />
 
         <p className="errorMessage">{emailError} </p>
-        <label>Password</label>
+        <label>Passord</label>
         <input
           type="password"
           required
