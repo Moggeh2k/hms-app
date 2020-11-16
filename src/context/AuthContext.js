@@ -73,7 +73,7 @@ const AuthProvider = (props) => {
     }
 
     const isAdmin = () => {
-        return username === "1234";
+        return username === "123";
     }
 
     const value = {
