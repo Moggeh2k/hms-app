@@ -4,6 +4,7 @@ import { useAuth } from "./context/AuthContext";
 import AuthenticatedApp from "./Components/AuthenticatedApp";
 import UnauthenticatedApp from "./Components/UnauthenticatedApp";
 
+
 function App() {
 
   const { isLoggedIn } = useAuth();
