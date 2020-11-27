@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Avviksliste from "../Pages/Avviksliste/Avviksliste";
 import Hovedside from "../Pages/Hovedside/Hovedside";
 import MeldAvvik from '../Pages/MeldAvvik/MeldAvvik';
 import MineAvvik from "../Pages/MineAvvik/MineAvvik";
@@ -17,7 +18,7 @@ const AuthenticatedApp = () => {
                 </Route>
 
                 <Route exact path="/avviksliste">
-                    <>Avviksliste</>
+                    <Avviksliste/>
                 </Route>
 
                 <Route exact path="/mine-avvik">

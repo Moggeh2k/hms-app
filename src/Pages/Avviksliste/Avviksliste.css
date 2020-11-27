@@ -1,0 +1,21 @@
+.container {
+    box-sizing: initial;
+    border: black solid 3px;
+    margin: 10px;
+    text-align: center;
+    background-color: #1F4971;
+    width: 500px;
+    display: grid;
+    grid-template-columns: 100px 130px 150px 122px ;
+    grid-template-rows: 40px;
+}
+
+
+
+.Loop {
+   margin-left: -2px;
+   margin-bottom: -3px;
+
+    border: black solid 2px;
+    background-color: #1F4971;
+}
