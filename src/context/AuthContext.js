@@ -23,6 +23,7 @@ const AuthProvider = (props) => {
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [username, setUsername] = useState("");
+    const [isAdminState, setIsAdmin] = useState(false);
 
     const handleLogin = (email, password) => {
         Fire
@@ -45,6 +46,9 @@ const AuthProvider = (props) => {
     const handleLogout = () => {
         Fire.auth().signOut();
         localStorage.removeItem("user");
+        setIsAdmin(false);
+        setUsername("");
+        setUser("");
     };
 
     const clearErrors = () => {
@@ -53,11 +57,17 @@ const AuthProvider = (props) => {
     };
 
     const authListener = () => {
-        Fire.auth().onAuthStateChanged((user) => {            
+        Fire.auth().onAuthStateChanged((user) => {
             if (user) {
+                user.getIdTokenResult().then(idTokenResult => {
+                    const adminClaim = idTokenResult.claims.admin;
+                    if (adminClaim !== undefined) {
+                        setIsAdmin(true);
+                    }
+                })
                 setUser(user);
                 setUsername(user.providerData[0].email.split("@")[0]);
-                localStorage.setItem("user", user);
+                localStorage.setItem("user", JSON.stringify(user));
             } else {
                 setUser("");
             }
@@ -73,7 +83,7 @@ const AuthProvider = (props) => {
     }
 
     const isAdmin = () => {
-        return username === "123";
+        return isAdminState;
     }
 
     const value = {

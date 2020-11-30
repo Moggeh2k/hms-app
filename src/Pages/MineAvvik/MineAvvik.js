@@ -1,10 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { db } from '../../Components/Fire'
+import { db, storage } from '../../Components/Fire'
+import { useAuth } from "../../context/AuthContext";
 
-// import HovedsideButton from "..Hovedside/MineAvvikKomponent";
+const AvviksImage = ({ fileName }) => {
+  const [imageSrc, setImageSrc] = useState("https://via.placeholder.com/150");
+
+  const file = storage.ref(fileName);
+  file.getDownloadURL().then((url) => {
+    setImageSrc(url);
+  }).catch(() => {
+    console.log("Could not fetch url for", fileName);
+  });
+
+  return <img src={imageSrc} style={{ width: 80, height: 80, backgroundColor: 'white' }} onClick={() => {window.location.assign(imageSrc)}} />
+}
 
 const MineAvvik = () => {
   const [avviks, setAvviks] = useState([]);
+  const { username, isAdmin } = useAuth();
 
   useEffect(() => {
     db.collection("Avvik")
@@ -14,7 +27,12 @@ const MineAvvik = () => {
       })
   }, [])
 
-  console.log(avviks)
+
+  const filterAvvik = (avvik) => {
+    if(isAdmin) return true;
+    return avvik.navn === username;
+  }
+
   return (
 
     <section className="Hero">
@@ -26,12 +44,12 @@ const MineAvvik = () => {
       <div style={{ color: 'white', padding: '10px 40px', border: '1px solid' }}>
         Dine Avvik
       </div>
-      {avviks.map((avvik) => (
-        <div style={{ color: 'white', padding: '20px 40px', display: 'grid', gridTemplateColumns: 'auto auto auto' }} key={Math.random()}>
-          <img src="https://via.placeholder.com/150" style={{ width: 80, height: 80, backgroundColor: 'white' }} />
+      {avviks.filter(filterAvvik).map((avvik, index) => (
+        <div style={{ color: 'white', padding: '20px 40px', display: 'grid', gridTemplateColumns: 'auto auto auto' }} key={index}>
+          <AvviksImage fileName={avvik.fil}/>
           <div style={{ display: 'grid', gridTemplateColumns: 'auto auto auto', width: 800 }}>
             <div style={{ gridRow: '1' }}>
-                Elev: {avvik.navn} | Kategori: {avvik.kategori} | Dato: Dato
+                Elev: {avvik.navn} <br/> Kategori: {avvik.kategori} | Dato: {new Date(avvik.dato).toLocaleString()}
             </div>
             <div style={{gridRow: '2' }}>
               {avvik.kommentar}

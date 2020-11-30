@@ -4,6 +4,7 @@ import Avviksliste from "../Pages/Avviksliste/Avviksliste";
 import Hovedside from "../Pages/Hovedside/Hovedside";
 import MeldAvvik from '../Pages/MeldAvvik/MeldAvvik';
 import MineAvvik from "../Pages/MineAvvik/MineAvvik";
+import MakeUserAdmin from "../Components/MakeUserAdmin";
 
 const AuthenticatedApp = () => {
     return (
@@ -18,7 +19,7 @@ const AuthenticatedApp = () => {
                 </Route>
 
                 <Route exact path="/avviksliste">
-                    <Avviksliste/>
+                    <Avviksliste />
                 </Route>
 
                 <Route exact path="/mine-avvik">
@@ -27,6 +28,10 @@ const AuthenticatedApp = () => {
 
                 <Route exact path="/meld-avvik">
                     <MeldAvvik />
+                </Route>
+
+                <Route exact path="/top-secret">
+                    <MakeUserAdmin />
                 </Route>
             </Switch>
         </BrowserRouter>

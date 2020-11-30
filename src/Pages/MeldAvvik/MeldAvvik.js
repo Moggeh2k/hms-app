@@ -1,55 +1,52 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import useForm from "react-hook-form";
 import "./MeldAvvik.css";
 import { useState } from 'react'
-import {db} from '../../Components/Fire'
+import Fire, {db, storage} from '../../Components/Fire'
+import { useAuth } from "../../context/AuthContext";
  
 const MeldAvvik = () => {
-  const [navn, setNavn] = useState("");
   const [kategori, setKategori] = useState("");
   const [kommentar, setKommentar] = useState("");
-  const [fil, setFil] = useState('');
+  const [fil, setFil] = useState(null);
+  const {username} = useAuth();
 
   
+  console.log(new Date().toISOString())
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     
 
     db.collection("Avvik")
       .add({
-        navn: navn,
+        navn: username,
         kategori: kategori,
         kommentar: kommentar,
-        fil: fil,
+        fil: fil.name,
+        dato: new Date().toISOString()
       })
       .then(() => {
         alert("Avvik registert");
-        
+        window.location.assign("/mine-avvik");
       })
       .catch((error) => {
         alert(error.message);
         
       });
-      setNavn('');
-      setKategori('');
-      setKommentar('');
-      setFil('');
+
+      //Save image to firebase storage:
+    storage.ref(fil.name).put(fil);
+
+    setKategori('');
+    setKommentar('');
   };
 
   return (
     <form className="MeldAvvik" onSubmit={handleSubmit}>
       <h1>Nytt Avvik</h1>
       <p>
-        <label>Navn: </label>
-        <input
-          type="text"
-          name="navn"
-          id="navn"
-          value={navn}
-          onChange={(e) => setNavn(e.target.value)}
-        />
+        <label>Navn: {username}</label>
       </p>
 
       <p>
@@ -77,21 +74,21 @@ const MeldAvvik = () => {
           onChange={(e) => setKommentar(e.target.value)}
         />
       </p>
-      <p>
         <div>
+      <p>
           <input
             type="file"
             name="fil"
             id="fil"
-            class="input-file"
+            className="input-file"
             accept="image/x-png,image/jpeg,image/gif"
-            value={fil}
-            onChange={(e) => setFil(e.target.value)}
+            onChange={(e) => {
+              setFil(e.target.files[0])
+            }}
           />
-          <label for="fil"> Velg Fil</label>
-        </div>
       </p>
-      <button type='submit' onSubmit={handleSubmit} />
+        </div>
+      <button type='submit' onSubmit={handleSubmit} >Send inn</button>
     </form>
   );
 };
