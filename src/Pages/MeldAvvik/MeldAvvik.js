@@ -9,30 +9,33 @@ const MeldAvvik = () => {
   const [navn, setNavn] = useState("");
   const [kategori, setKategori] = useState("");
   const [kommentar, setKommentar] = useState("");
+  const [fil, setFil] = useState('');
 
-  // const [loader, setLoader] = useState(false);
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setLoader(true)
+    
 
     db.collection("Avvik")
       .add({
         navn: navn,
         kategori: kategori,
         kommentar: kommentar,
+        fil: fil,
       })
       .then(() => {
         alert("Avvik registert");
-        // setLoader(false);
+        
       })
       .catch((error) => {
         alert(error.message);
-        // setLoader(false);
+        
       });
       setNavn('');
       setKategori('');
       setKommentar('');
+      setFil('');
   };
 
   return (
@@ -82,7 +85,8 @@ const MeldAvvik = () => {
             id="fil"
             class="input-file"
             accept="image/x-png,image/jpeg,image/gif"
-           // onChange={() => handleSubmit()}
+            value={fil}
+            onChange={(e) => setFil(e.target.value)}
           />
           <label for="fil"> Velg Fil</label>
         </div>
@@ -93,23 +97,3 @@ const MeldAvvik = () => {
 };
 
 export default MeldAvvik;
-
-// function MeldAvvik() {
-//   const onSubmit = (data) => {
-//     alert(JSON.stringify(data));
-//   };
-
-//   function upload() {
-//     return new Promise(async (resolve, reject) => {
-//       const filePicker = document.querySelector("input");
-//       if (!filePicker || !filePicker.files || filePicker.files.length <= 0) {
-//         reject("Ingen fil valgt.");
-//         return;
-//       }
-
-//       const myFile = filePicker.files[0];
-
-//       console.log(myFile);
-//       resolve();
-//     });
-//   }

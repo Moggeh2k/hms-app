@@ -22,7 +22,7 @@ const MineAvvik = () => {
       <button onClick={(e) => window.location.assign("/meld-avvik")}>
         Meld Avvik
       </button>
-      <div style={{bottom: 100, position: 'fixed', width: '100%'}}>
+      <div style={{bottom: 100, position: 'flex', width: '100%'}}>
       <div style={{ color: 'white', padding: '10px 40px', border: '1px solid' }}>
         Dine Avvik
       </div>
