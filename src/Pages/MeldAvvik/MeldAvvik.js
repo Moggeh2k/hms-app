@@ -10,13 +10,8 @@ const MeldAvvik = () => {
   const [fil, setFil] = useState(null);
   const {username} = useAuth();
 
-  
-  console.log(new Date().toISOString())
-
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    
 
     db.collection("Avvik")
       .add({

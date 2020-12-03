@@ -5,29 +5,34 @@ import "./Avviksliste.css";
 
 const AlleAvvik = () => {
   const [avviks, setAvviks] = useState([]);
+  const [updateCounter, setUpdateCounter] = useState(0);
   const { username, isAdmin } = useAuth();
-  // const [updateCounter, setUpdateCounter] = useState(0);
 
   useEffect(() => {
     db.collection("Avvik")
       .get()
       .then((snapshot) => {
-        setAvviks(snapshot.docs.map((doc) => doc.data()));
+        setAvviks(
+          snapshot.docs.map((doc) => {
+            console.log(doc);
+            const document = doc.data();
+            document.id = doc.id;
+            return document;
+          })
+        );
       });
-  });
-  //   }, [updateCounter]);
+  }, [updateCounter]);
 
-  const deleteAvvik = () => {
+  const deleteAvvik = (avvik) => {
     db.collection("Avvik")
-      .document(avviks)
-      .delete();
-      // .then(() => {
-      //   console.log("success");
-        // update avviksliste-state her
-      //  setAvviks( () => {avviks.pop(avvik)});
-      //  avviks.pop(avvik);
-        // ELler sånn, men bad react: Only in emergency: setUpdateCounter(updateCounter++);
-      // });
+      .doc(avvik.id)
+      .delete()
+      .then(() => {
+        setUpdateCounter(updateCounter + 1);
+      })
+      .catch(() => {
+        console.log("Could not delete");
+      });
   };
 
   const filterAvvik = (avvik) => {
@@ -35,43 +40,40 @@ const AlleAvvik = () => {
     return avvik.navn === username;
   };
 
-  const DeleteButton = ({ avvik, deleteAvvik }) => {
-    return (
-      <button
-        className="deleteButton"
-        onClick={() => {
-          deleteAvvik(avvik);
-        }}
-      >
-        
-        &#10006;
-      </button>
-    );
+  const sortFunc = (a, b) => {
+    return new Date(a.dato) - new Date(b.date);
   };
 
   return (
     <section className="Hero">
       <table className="avvikTable">
         <thead>
-          <th>Navn</th>
-          <th>Kategori</th>
-          <th>Kommentar</th>
-          <th>Dato</th>
-          <th>Slett</th>
+          <tr>
+            <th>Navn</th>
+            <th>Kategori</th>
+            <th>Kommentar</th>
+            <th>Dato</th>
+            <th>Slett</th>
+          </tr>
         </thead>
         <tbody>
-        {avviks.filter(filterAvvik).map((avvik, index, key) => (
-          
-          <tr key={index}>
-            <td>{avvik.navn}</td>
-            <td>{avvik.kategori}</td>
-            <td>{avvik.kommentar.substring(0,40) + (avvik.kommentar.length > 40? '...': '')}</td>
-            <td>{new Date(avvik.dato).toDateString()}</td>
-            <td>
-              <DeleteButton avvik={avvik} delete={deleteAvvik} />
-            </td>
-          </tr>
-        ))}
+          {avviks
+            .filter(filterAvvik)
+            .sort(sortFunc)
+            .map((avvik, index) => (
+              <tr key={index}>
+                <td>{avvik.navn}</td>
+                <td>{avvik.kategori}</td>
+                <td>
+                  {avvik.kommentar.substring(0, 40) +
+                    (avvik.kommentar.length > 40 ? "..." : "")}
+                </td>
+                <td>{new Date(avvik.dato).toDateString()}</td>
+                <td>
+                  <DeleteButton avvik={avvik} deletefunction={deleteAvvik} />
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
       <button
@@ -86,3 +88,16 @@ const AlleAvvik = () => {
 };
 
 export default AlleAvvik;
+
+const DeleteButton = ({ avvik, deletefunction }) => {
+  return (
+    <button
+      className="deleteButton"
+      onClick={() => {
+        deletefunction(avvik);
+      }}
+    >
+      &#10006;
+    </button>
+  );
+};
