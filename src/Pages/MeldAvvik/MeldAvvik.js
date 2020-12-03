@@ -89,6 +89,7 @@ const MeldAvvik = () => {
       </p>
         </div>
       <button type='submit' onSubmit={handleSubmit} >Send inn</button>
+      <button onClick={() => { window.location.assign("/mine-avvik") }}>Tilbake</button>
     </form>
   );
 };

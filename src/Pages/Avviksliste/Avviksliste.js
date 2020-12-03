@@ -1,42 +1,85 @@
-import React from 'react';
-import {useAuth} from '../../context/AuthContext';
-import './Avviksliste.css';
+import React, { useEffect, useState } from "react";
+import { db } from "../../Components/Fire";
+import { useAuth } from "../../context/AuthContext";
+import "./Avviksliste.css";
+const AlleAvvik = () => {
+  const [avviks, setAvviks] = useState([]);
+  const { username, isAdmin } = useAuth();
+  // const [updateCounter, setUpdateCounter] = useState(0);
 
+  useEffect(() => {
+    db.collection("Avvik")
+      .get()
+      .then((snapshot) => {
+        setAvviks(snapshot.docs.map((doc) => doc.data()));
+      });
+  });
+  //   }, [updateCounter]);
 
-function Avviksliste() {
-    const NavnListe = ['Navn1', 'Navn2', 'Navn3']
-    const KategoriListe = ['Kategori1', 'Kategori2', 'Kategori3']
-    const KommentarListe = ['Kommentar1', 'Kommentar2', 'Kommentar3']
-    const DatoListe = ['Dato1', 'Dato2', 'Dato3']
-    return ( 
+  const deleteAvvik = (avvik) => {
+    db.collection("Avvik")
+      .document(avvik)
+      .delete()
+      .then(() => {
+        console.log("success");
+        // update avviksliste-state her
+        // Kanskje noe sånt: setAvviks( () => {avviks.pop(avvik)});
+        // Eller noe sånt: avviks.pop(avvik);
+        // ELler sånn, men bad react: Only in emergency: setUpdateCounter(updateCounter++);
+      });
+  };
 
-    <div className="container">
-        <div className="Felt">Navn</div>
-        <div className="Felt">Kategori</div>
-        <div className="Felt">Kommentar</div>
-        <div className="Felt">Dato</div>
+  const filterAvvik = (avvik) => {
+    if (isAdmin) return true;
+    return avvik.navn === username;
+  };
 
-        <div className="Felt">
-            {NavnListe.map(navn =>(
-                <div className="Loop">{navn}</div>))}
-        </div>
+  const DeleteButton = ({ avvik, deleteAvvik }) => {
+    return (
+      <button
+        onClick={() => {
+          deleteAvvik(avvik);
+        }}
+      >
+        Slett
+      </button>
+      
+    );
+  };
 
-        <div className="Felt">
-            {KategoriListe.map(kategori =>(
-                <div className="Loop">{kategori}</div>))}
-        </div>
+  return (
+    <section className="Hero">
+      <div className="grid">
+        <div className="nameHeader">nameHeader</div>
+        <div className="kategoriHeader">kategoriHeader</div>
+        <div className="DatoHeader">DatoHeader</div>
+        <div className="deleteHeader">deleteHeader</div>
+        {avviks.filter(filterAvvik).map((avvik, index) => (
+          <div key={index} className="row">
+            <div className="nameCol">{avvik.navn}</div>
+            <div className="kategoriCol">{avvik.kategori}</div>
+            <div className="DatoCol">
+              {new Date(avvik.dato).toLocaleString()}
+            </div>
+            <div className="deleteCol">
+              <DeleteButton avvik={avvik} delete={deleteAvvik} />
+            </div>
+            
+          </div>
+          
+        ))}
+        ;
+      </div>
+      <button
+        onClick={() => {
+          window.location.assign("/");
+        }}
+      >
+        Tilbake
+      </button>
+    </section>
+    
+  );
+};
 
-        <div className="Felt">
-            {KommentarListe.map(kommentar =>(
-                <div className="Loop">{kommentar}</div>))}
-        </div>
-
-        <div className="Felt">
-            {DatoListe.map(dato =>(
-                <div className="Loop">{dato}</div>))}
-        </div>
-    </div>
-);
-}
-
-export default Avviksliste;
+export default AlleAvvik;
