@@ -5,6 +5,7 @@ import Hovedside from "../Pages/Hovedside/Hovedside";
 import MeldAvvik from '../Pages/MeldAvvik/MeldAvvik';
 import MineAvvik from "../Pages/MineAvvik/MineAvvik";
 import MakeUserAdmin from "../Components/MakeUserAdmin";
+import Elevliste from '../Pages/Elevliste/Elevliste';
 
 const AuthenticatedApp = () => {
     return (
@@ -15,7 +16,7 @@ const AuthenticatedApp = () => {
                 </Route>
 
                 <Route exact path="/elevliste">
-                    <>Elevliste</>
+                    <Elevliste/>
                 </Route>
 
                 <Route exact path="/avviksliste">

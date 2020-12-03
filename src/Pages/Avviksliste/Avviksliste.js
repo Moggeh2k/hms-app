@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../Components/Fire";
 import { useAuth } from "../../context/AuthContext";
 import "./Avviksliste.css";
+
 const AlleAvvik = () => {
   const [avviks, setAvviks] = useState([]);
   const { username, isAdmin } = useAuth();
@@ -16,17 +17,17 @@ const AlleAvvik = () => {
   });
   //   }, [updateCounter]);
 
-  const deleteAvvik = (avvik) => {
+  const deleteAvvik = () => {
     db.collection("Avvik")
-      .document(avvik)
-      .delete()
-      .then(() => {
-        console.log("success");
+      .document(avviks)
+      .delete();
+      // .then(() => {
+      //   console.log("success");
         // update avviksliste-state her
-        // Kanskje noe sånt: setAvviks( () => {avviks.pop(avvik)});
-        // Eller noe sånt: avviks.pop(avvik);
+      //  setAvviks( () => {avviks.pop(avvik)});
+      //  avviks.pop(avvik);
         // ELler sånn, men bad react: Only in emergency: setUpdateCounter(updateCounter++);
-      });
+      // });
   };
 
   const filterAvvik = (avvik) => {
@@ -37,39 +38,42 @@ const AlleAvvik = () => {
   const DeleteButton = ({ avvik, deleteAvvik }) => {
     return (
       <button
+        className="deleteButton"
         onClick={() => {
           deleteAvvik(avvik);
         }}
       >
-        Slett
+        
+        &#10006;
       </button>
-      
     );
   };
 
   return (
     <section className="Hero">
-      <div className="grid">
-        <div className="nameHeader">nameHeader</div>
-        <div className="kategoriHeader">kategoriHeader</div>
-        <div className="DatoHeader">DatoHeader</div>
-        <div className="deleteHeader">deleteHeader</div>
-        {avviks.filter(filterAvvik).map((avvik, index) => (
-          <div key={index} className="row">
-            <div className="nameCol">{avvik.navn}</div>
-            <div className="kategoriCol">{avvik.kategori}</div>
-            <div className="DatoCol">
-              {new Date(avvik.dato).toLocaleString()}
-            </div>
-            <div className="deleteCol">
-              <DeleteButton avvik={avvik} delete={deleteAvvik} />
-            </div>
-            
-          </div>
+      <table className="avvikTable">
+        <thead>
+          <th>Navn</th>
+          <th>Kategori</th>
+          <th>Kommentar</th>
+          <th>Dato</th>
+          <th>Slett</th>
+        </thead>
+        <tbody>
+        {avviks.filter(filterAvvik).map((avvik, index, key) => (
           
+          <tr key={index}>
+            <td>{avvik.navn}</td>
+            <td>{avvik.kategori}</td>
+            <td>{avvik.kommentar.substring(0,40) + (avvik.kommentar.length > 40? '...': '')}</td>
+            <td>{new Date(avvik.dato).toDateString()}</td>
+            <td>
+              <DeleteButton avvik={avvik} delete={deleteAvvik} />
+            </td>
+          </tr>
         ))}
-        ;
-      </div>
+        </tbody>
+      </table>
       <button
         onClick={() => {
           window.location.assign("/");
@@ -78,7 +82,6 @@ const AlleAvvik = () => {
         Tilbake
       </button>
     </section>
-    
   );
 };
 

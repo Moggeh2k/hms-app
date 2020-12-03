@@ -50,7 +50,7 @@ const MeldAvvik = () => {
       </p>
 
       <p>
-        <label>Kategori</label>
+        <label> Kategori </label>
         <select
           name="kategori"
           id="kategori"

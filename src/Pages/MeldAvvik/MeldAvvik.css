@@ -24,14 +24,7 @@ h1 {
   margin: 0 auto;
 }
 
-p {
-  color: #bf1650;
-}
 
-p::before {
-  display: inline;
-  content: "⚠ ";
-}
 
 textarea,
 input {
@@ -52,7 +45,7 @@ label {
   margin-bottom: 13px;
   margin-top: 20px;
   color: white;
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 200;
 }
 

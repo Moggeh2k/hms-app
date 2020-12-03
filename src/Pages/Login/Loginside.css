@@ -38,12 +38,6 @@
     flex-direction: column;
     justify-content: center;
     background: #11283D;
-    /* background: radial-gradient(
-      ellipse at left bottom,
-      rgb(70, 83, 216) 0%,
-      rgba(16, 14, 146, 0.9) 40%,
-      rgba(17, 27, 75, 0.9) 100% */
-    /* ); */
     box-shadow: 0 50px 70px -20px rgba(0, 0, 0, 0.8);
   }
   
