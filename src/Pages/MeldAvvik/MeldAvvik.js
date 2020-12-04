@@ -1,7 +1,7 @@
 import React from "react";
 import "./MeldAvvik.css";
 import { useState } from 'react'
-import  {db, storage} from '../../Components/Fire'
+import {db, storage} from '../../Components/Fire'
 import { useAuth } from "../../context/AuthContext";
  
 const MeldAvvik = () => {
